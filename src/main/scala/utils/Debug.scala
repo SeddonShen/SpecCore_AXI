@@ -21,7 +21,6 @@ import chisel3.util._
 import chisel3.util.experimental.BoringUtils
 import utils.LogLevel.LogLevel
 
-import nutcore.NutCoreConfig
 
 object LogLevel extends Enumeration {
   type LogLevel = Value
@@ -75,8 +74,8 @@ sealed abstract class LogHelper(val logLevel: LogLevel) {
     LogUtil(logLevel)(prefix, cond, pable)
 
   // NOOP/NutShell style debug
-  def apply(flag: Boolean = NutCoreConfig().EnableDebug, cond: Bool = true.B)(body: => Unit): Any = {
-    if(NutCoreConfig().EnhancedLog){
+  def apply(flag: Boolean = true, cond: Bool = true.B)(body: => Unit): Any = {
+    if(true){
       if(flag) { when (cond && LogUtil.displayLog) { body } }
     } else {
       if(flag) { when (cond) { body } }
