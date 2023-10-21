@@ -22,8 +22,8 @@ object AXI4Parameters {
 
   // These are not fixed:
   val idBits    = 1
-  val addrBits  = PAddrBits
-  val dataBits  = DataBits
+  val addrBits  = PAddrBits // 32
+  val dataBits  = DataBits  // 64
   val userBits  = 1
 
   def CACHE_RALLOCATE  = 8.U(cacheBits.W)
