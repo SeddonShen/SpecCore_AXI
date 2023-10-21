@@ -63,10 +63,18 @@ class AXI4RAM[T <: AXI4Lite](_type: T = new AXI4, memByte: Int,
     val mem = Mem(memByte / 8, Vec(8, UInt(8.W)))
     
     val wdata = VecInit.tabulate(8) { i => in.w.bits.data(8*(i+1)-1, 8*i) }
-    when (wen) { mem.write(wIdx, wdata, in.w.bits.strb.asBools) }
-
+    // print in.w.fire and inRange(wIdx)
+    printf("[AXI4RAM] in.w.ready = %d, in.w.valid = %d, inRange(wIdx) = %d\n", in.w.ready, in.w.valid, inRange(wIdx))
+    when (wen) { 
+      // print widx and wdata
+      printf("[AXI4RAM------] wIdx = %d, wdata = %d\n", wIdx, in.w.bits.data)
+      mem.write(wIdx, wdata, in.w.bits.strb.asBools) 
+    }
     Cat(mem.read(rIdx).reverse)
   }
-
+  when(ren) {
+    printf("[AXI4RAM] rIdx = %d, rdata = %d\n", rIdx, rdata)
+    // print in.r valid and ready
+  }
   in.r.bits.data := RegEnable(rdata, ren)
 }

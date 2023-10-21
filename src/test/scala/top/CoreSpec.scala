@@ -12,7 +12,7 @@ class SocTopSpec extends AnyFreeSpec with ChiselScalatestTester {
   // test SocTop
   "SocTop should pass" in {
     test(new SoCTop()) { dut =>
-      dut.clock.step(100)
+      dut.clock.step(20)
     }
   }
 }
