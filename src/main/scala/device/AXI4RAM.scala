@@ -38,7 +38,7 @@ class RAMHelper(memByte: Int) extends BlackBox {
 }
 
 class AXI4RAM[T <: AXI4Lite](_type: T = new AXI4, memByte: Int,
-  useBlackBox: Boolean = false, memFile: String) extends AXI4SlaveModule(_type) {
+  useBlackBox: Boolean = false) extends AXI4SlaveModule(_type) {
 
   val offsetBits = log2Up(memByte)
   val offsetMask = (1 << offsetBits) - 1
@@ -61,10 +61,7 @@ class AXI4RAM[T <: AXI4Lite](_type: T = new AXI4, memByte: Int,
     mem.io.rdata
   } else {
     val mem = Mem(memByte / 8, Vec(8, UInt(8.W)))
-    if (memFile != "") {
-      loadMemoryFromFile(mem, memFile)
-    }
-
+    
     val wdata = VecInit.tabulate(8) { i => in.w.bits.data(8*(i+1)-1, 8*i) }
     when (wen) { mem.write(wIdx, wdata, in.w.bits.strb.asBools) }
 
